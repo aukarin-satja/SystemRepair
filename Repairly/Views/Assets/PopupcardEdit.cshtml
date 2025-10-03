@@ -1,0 +1,77 @@
+﻿@model Repairly.Models.AssetsPageViewModel;
+@Html.AntiForgeryToken()
+
+<form method="post" asp-action="UpdateAsset">
+
+    <div class="modal fade " id="editpopup" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">เพิ่มรายการใหม่</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   
+                    <div class="row g-3">
+                      
+                            <input type="hidden" id="edit-id" asp-for="FormData.Assets_id" class="form-control" placeholder="ID" required />
+                        
+                        <div class="col-4">
+                            <label class="form-label">รหัสครุภัณฑ์ *</label>
+                            <input type="text" id="edit-code" asp-for="FormData.Asset_code" class="form-control" placeholder="A-001" required />
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">ครุภัณฑ์ *</label>
+                            <input type="text" id="edit-name" asp-for=" FormData.Asset_name" class="form-control" placeholder="เช่น เครื่องคอมพิวเตอณ์" required />
+                        </div>
+
+                      
+                        <div class="col-4">
+                            <label class="form-label">ประเภท *</label>
+
+                            <select id="edit-category" asp-items="ViewBag.Categories" asp-for=" FormData.Category_id" class="form-control"></select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">แบรนด์ *</label>
+                            <input type="text" id="edit-brand" asp-for="FormData.Brand" class="form-control" placeholder="แบรนด์" required />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">โมเดล *</label>
+                            <input type="text" id="edit-model" asp-for="FormData.Model" class="form-control" placeholder="โมเดล" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">สถานที่ *</label>
+                            <input type="text" id="edit-location" asp-for="FormData.Location" class="form-control" placeholder="สถานที่" required />
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label">วันที่ซื้อ</label>
+                            <input type="date" id="edit-purchase" asp-for="FormData.Purchase_date" class="form-control" placeholder="วันที่ซื้อ" required />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">หมดประกัน</label>
+                            <input type="date" id="edit-warranty" asp-for="FormData.Warranty_date" class="form-control" placeholder="หมดประกัน" required />
+                        </div>
+                    </div>
+                    
+                    
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    <button class="btn btn-primary" type="submit">บันทึก</button>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</form>

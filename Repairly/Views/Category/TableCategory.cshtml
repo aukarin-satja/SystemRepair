@@ -1,0 +1,47 @@
+﻿@model List<Repairly.Models.CategoryViewModel>
+
+<table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+        <tr class="text-secondary">
+            <th style="width: 70%;">ประเภท</th>
+            <th style="width: 30%;">การดำเนินการ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                @ViewBag.ErrorMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (Model != null && Model.Any())
+        {
+            foreach (var cate in Model)
+            {
+                <tr>
+                    <td class="fw-medium">@cate.name</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary updateIndex me-2" data-bs-toggle="modal" data-bs-target="#EditCardCate" data-id="@cate.id" title="แก้ไข">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger  delIndex" data-id="@cate.id" title="ลบ">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center text-muted py-5">
+                    <i class="bi bi-box-seam fs-3 mb-2"></i><br />
+                    <span class="fw-light">ไม่มีข้อมูลประเภทครุภัณฑ์</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

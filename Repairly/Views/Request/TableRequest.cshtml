@@ -1,0 +1,51 @@
+﻿
+<table class="table table-hover">
+    <tr>
+
+        <th>ประเภท</th>
+        <th>ครุภัณฑ์</th>
+        <th>แบรนด์</th>
+        <th>โมเดล</th>
+        <th>รายละเอียด</th>
+        <th>ผู้แจ้ง</th>
+        <th>สถานะ</th>
+        <th>วันที่แจ้ง</th>
+        <th>การดำเนินการ</th>
+
+    </tr>
+
+    @foreach (var requests in Model)
+    {
+        <tr>
+
+            <td>@requests.category_name</td>
+            <td>@requests.asset_name</td>
+            <td>@requests.brand</td>
+            <td>@requests.model</td>
+            <td>@requests.description</td>
+            <td>@requests.user_name</td>
+            <td>@requests.status_name</td>
+            <td>@requests.created_at</td>
+
+
+            <td class="d-flex justify-content-around">
+                <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCardRequest" data-id="@requests.id" onclick="EditDetail(this)">
+                    <i class="bi bi-pen-fill text-primary"></i>
+                </a>
+
+                <a class="btn btn-outline-danger btn-sm delIndex" id="DelRequest" data-id="@requests.id"><i class="bi bi-trash3-fill text-danger"></i></a>
+            </td>
+        </tr>
+
+    }
+    <tr>
+        <td colspan="9" class="text-center text-muted py-5">
+            <i class="bi bi-box-seam fs-3"></i><br />
+            ไม่มีข้อมูลเพิ่มเติม
+        </td>
+    </tr>
+
+
+
+
+</table>

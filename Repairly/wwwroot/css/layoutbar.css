@@ -1,0 +1,12 @@
+﻿.sidebar-link{
+    padding:16px;
+}
+
+    .sidebar-link:hover {
+        background-color: #404040;
+    }
+
+.colorbar {
+    background-color: #0D0D0D;
+}
+

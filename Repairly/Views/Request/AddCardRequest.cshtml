@@ -1,0 +1,162 @@
+﻿
+
+
+    <div class="modal fade " id="AddCardRequest" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">เพิ่มรายการใหม่</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">ค้นหารหัสครุภัณฑ์ *</label>
+                            <input type="text" id="assetSearch" class="form-control" placeholder="พิมพ์รหัสครุภัณฑ์ เช่น A-001 ..." autocomplete="off" />
+                            <ul id="assetSuggestions"  class="list-group position-absolute z-3"></ul>
+                        </div>
+                    
+
+                        <div class="col-6">
+                            <label class="form-label">ครุภัณฑ์ </label>
+                        <input type="text" id="name" class="form-control" placeholder="" disabled required />
+                        </div>
+
+
+                        <div class="col-6">
+                            <label class="form-label">ประเภท </label>
+                            <input type="text" id="category" class="form-control" placeholder="" disabled required />
+
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">แบรนด์ </label>
+                            <input type="text" id="brand" class="form-control" placeholder="" disabled required />
+
+                        </div>
+                        
+                        <div class="col-6">
+                            <label class="form-label">โมเดล </label>
+                            <input type="text" id="model" class="form-control" placeholder="" disabled required />
+
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">ค้นหาชื่อผู้แจ้ง *</label>
+                            <input type="text" class="form-control" id="searchUser" placeholder="เช่น สมคิด นึกอยู่..."  required />
+                             <ul id="userSuggestions"  class="list-group position-absolute z-3"></ul>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">ชื่อนาม-สกุล</label>
+                            <input type="text"id="fullname" class="form-control" disabled required />
+
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Email</label>
+                        <input type="text" id="emailuser" class="form-control" disabled required />
+
+                        </div>
+                      
+                      
+                    </div>
+                </div>
+
+            <form method="post" asp-action="CreateRequest">
+
+
+             
+                
+                <input type="hidden" id="id" name="id" />
+                <input type="hidden" id="user_id" name="user_id" />
+                <input type="hidden" id="category_id" name="category_id"  />
+                <div class="p-3">
+                    <label class="form-label">รายละเอียด *</label>
+                    <textarea class="form-control" name="description" rows="5" required></textarea>
+
+                </div>
+                <input type="hidden" id="status_id" name="status_id" value="1"  />
+                <input type="hidden" id="create_at" name="create_at" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")" />
+             
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    <button class="btn btn-primary" type="submit">บันทึก</button>
+                </div>
+
+
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $("#assetSearch").on("keyup",function(){
+        let data = $(this).val()
+
+        if(data != ""){
+        $.ajax({
+            url:"/Request/SearchAsset",
+            type:"GET",
+            data:{data:data},
+            success:function(result){
+          
+                let list = result.map(item=>
+                   `<li class='list-group-item list-group-item-action' onclick="  selectitem('${item.id}','${item.name}','${item.assets_code}','${item.model}','${item.brand}' ,'${item.category_id}','${item.category}' )">${item.assets_code} - ${item.name} ${item.brand} ${item.model} </li>`
+
+                )
+                $("#assetSuggestions").html(list.join(""))
+            }
+
+        })
+         }
+
+    })
+
+    function selectitem(id,name,assets_code,model,brand,category_id,category){
+          $("#assetSuggestions").html("")
+           $("#assetSearch").val(assets_code);
+        $("#name").val(name);
+         $("#assets_code").val(assets_code);
+          $("#model").val(model);
+           $("#brand").val(brand);
+            $("#category").val(category);
+                $("#id").val(id);
+           $("#category_id").val(category_id);
+    }
+
+
+
+  
+
+</script>
+
+<script>
+
+
+      $("#searchUser").on("keyup",function(){
+        let data = $(this).val()
+        $.ajax({
+            url:"/Request/SearchUser",
+            type:"GET",
+            data:{data:data},
+            success:function(result){
+
+                let list = result.map(item =>
+                     `<li class='list-group-item list-group-item-action' onclick="userDetail('${item.user_id}','${item.user_name}','${item.email}')" > ${item.user_name} </li> `
+                )
+                $("#userSuggestions").html(list.join(""))
+            }
+             })
+      })
+
+
+    function userDetail(user_id,user_name,email){
+                $("#userSuggestions").html("")
+                $("#fullname").val(user_name);
+                $("#emailuser").val(email);
+                $("#searchUser").val("");
+                 $("#user_id").val(user_id);
+
+    }
+</script>

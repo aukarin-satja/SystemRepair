@@ -1,0 +1,74 @@
+﻿@model List<Repairly.Models.CategoryViewModel>
+
+<div class="container-fluid py-4 px-3 bg-light min-vh-100">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-header bg-white px-4 py-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="fw-semibold text-dark mb-0">ประเภทครุภัณฑ์</h4>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddCardCate">
+                            <i class="bi bi-plus-circle me-1"></i> เพิ่มประเภท
+                        </button>
+                    </div>
+                </div>
+                <partial name="AddCardCategory" />
+                <partial name="EditCardCategory" />
+                <div class="card-body px-4 py-4">
+                    <div class="table-responsive" id="tableCate">
+                        <partial name="TableCategory" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on("click", ".btn-close", function () {
+        window.location.href='/Category/Index';
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".delIndex").on("click", function () {
+           let datadel = this.dataset.id;
+            Swal.fire({
+                title: "การลบนี้จะไม่สามารถย้อนกลับได้",
+                text: "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "ลบเลย",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    window.location.href = "/Category/Delete?id="+datadel;
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(".updateIndex").on("click",function(){
+          let data= this.dataset.id;
+          $.ajax({
+              url:"/Category/GetId",
+              data:{id:data},
+              success:function(data){
+                $("#edit-id").val(data.id);
+                $("#edit-name").val(data.name);
+             
+
+              }
+          })
+    })
+
+</script>

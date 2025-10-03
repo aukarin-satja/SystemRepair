@@ -1,0 +1,42 @@
+﻿
+
+<form method="post" asp-action="CreateAsset">
+    @Html.AntiForgeryToken()
+
+
+
+                    <h5 class="modal-title">เพิ่มรายการใหม่</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                            <label class="form-label">รหัสครุภัณฑ์ *</label>
+                            <input type="text" name="Asset_code" class="form-control" placeholder="A-001" required />
+
+                            <label class="form-label">ครุภัณฑ์ *</label>
+                            <input type="text" name="Asset_name" class="form-control" placeholder="เช่น เครื่องคอมพิวเตอณ์" required />
+
+
+                            <label class="form-label">ประเภท *</label>
+                            <select class="form-control" name="Category_id" asp-items="ViewBag.Categories" required></select>
+
+                            <label class="form-label">แบรนด์ *</label>
+                            <input type="text" name="Brand" class="form-control" placeholder="แบรนด์" required />
+
+                            <label class="form-label">โมเดล *</label>
+                            <input type="text" name="Model" class="form-control" placeholder="โมเดล" required />
+   
+                            <label class="form-label">สถานที่ *</label>
+                            <input type="text" name="Location" class="form-control" placeholder="สถานที่" required />
+          
+           
+                            <label class="form-label">วันที่ซื้อ</label>
+                            <input type="date" name="Purchase_date" class="form-control" placeholder="วันที่ซื้อ" required />
+             
+        
+                            <label class="form-label">หมดประกัน</label>
+                            <input type="date" name="Warranty_date" class="form-control" placeholder="หมดประกัน" required />
+        
+
+                    <button class="btn btn-secondary" type="submit">บันทึก</button>
+
+
+</form>

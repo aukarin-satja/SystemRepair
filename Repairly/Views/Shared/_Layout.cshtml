@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Repairly</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/layoutbar.css" />
+</head>
+<body  class="d-flex flex-column vh-100" >
+    
+    <nav class="navbar colorbar d-lg-none d-flex justify-content-around navbar-expand">
+
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="bi bi-list"></i></button>
+        <div class="navbar-brand fw-bold  text-white ">   Repair System</div>
+        
+        <div class="dropdown">
+            <a class="text-white dropdown-toggle" data-bs-toggle="dropdown">Admin</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item ">จัดการผู้ใช้</a></li>
+            <li><a class="dropdown-item ">ออกจากระบบ</a></li>
+            </ul>
+               
+        </div>
+    </nav>
+
+
+    <div class="d-flex flex-grow-1 " style="min-height: 0;">
+        <aside class="shadow-sm colorbar d-none d-lg-block  " style="max-width:290px;min-width:290px;">
+            <partial name="_Sidebar" />
+        </aside>
+        <div class="flex-grow-1 overflow-auto " style="background-color:#DDDEE5">
+                @RenderBody()
+        </div>
+    </div>
+
+
+    <div class="offcanvas offcanvas-start colorbar" id="sidebar" style="width:70%; height: 100vh; overflow-y: auto;">
+        <div class="offcanvas-header">
+   
+            <button type="button" class="btn-close btn-close-white mt-2 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+           <partial name="_Sidebar" />
+        </div>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+<style>
+    .layout-grid {
+        display: grid;
+        grid-template-columns: 270px 1fr;
+        height: 100vh;
+    }
+</style>

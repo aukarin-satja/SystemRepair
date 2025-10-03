@@ -1,0 +1,123 @@
+﻿
+<div class="row p-3">
+    <div class="card border-primary">
+        <div class="card-header bg-white">
+
+            <div class="col-md-12 p-2">
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-1">รายงานสถิติการซ่อมครุภัณฑ์</h5>
+                    <div class="col-md-4 text-md-end text-start">
+
+
+                        <form method="get" action="/Report/ExportPdf" target="_blank" id="pdfForm">
+                            <input type="hidden" name="startDate" id="pdfStartDate" />
+                            <input type="hidden" name="endDate" id="pdfEndDate" />
+                            <input type="hidden" name="status" id="pdfStatus" />
+                            <input type="hidden" name="category" id="pdfCategory" />
+                           
+                        </form>
+                       
+                    </div>
+                </div>
+
+                <p class="mb-2 text-muted" id="monthDisplay"></p>
+
+                <div class="bg-light border rounded p-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-1" id="count"><strong>จำนวนรายการ:</strong> @Model.Data.Count รายการ</p>
+                            <p class="mb-1">
+                                <strong>สถานะ:</strong>
+                                @foreach (var item in Model.StatusSummary)
+                                {
+                                    <span class="badge bg-secondary">@item.Key : @item.Value </span>
+
+                                }
+
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1">
+                                <strong>จำนวนแต่ละประเภท:</strong>
+                                @foreach (var item in Model.CategorySummary)
+                                {
+                                    <span class="badge bg-secondary"> @item.Key : @item.Value </span>
+
+                                }
+
+
+                            </p>
+                            <p class="mb-0">
+                                <strong>จำนวนต่ละแบรนด์:</strong>
+
+                                @foreach (var item in Model.BrandSummary)
+                                {
+                                    <span class="badge bg-secondary"> @item.Key : @item.Value </span>
+
+                                }
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="mt-2 text-secondary">
+                <table class="table table-responsive table-hover">
+                    <tr>
+                        <th>ประเภท</th>
+                        <th>ครุภัณฑ์</th>
+                        <th>แบรนด์</th>
+                        <th>โมเดล</th>
+                        <th>รายละเอียด</th>
+
+                        <th>สถานะ</th>
+                        
+
+                    </tr>
+
+                    @foreach (var data in Model.Data)
+                    {
+
+                        <tr>
+                            <td>@data.category</td>
+                            <td>@data.asset_name</td>
+                            <td>@data.brand</td>
+                            <td>@data.model</td>
+
+                            <td>@data.description</td>
+
+                            <td>@data.status</td>
+                      
+
+                        </tr>
+
+                    }
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function syncPdfForm() {
+        document.getElementById("pdfStartDate").value = document.getElementById("startDate").value;
+        document.getElementById("pdfEndDate").value = document.getElementById("endDate").value;
+        document.getElementById("pdfStatus").value = document.getElementById("status").value;
+        document.getElementById("pdfCategory").value = document.getElementById("category").value;
+    }
+
+    ["startDate", "endDate", "status", "category"].forEach(id => {
+        document.getElementById(id).addEventListener("change", syncPdfForm);
+    });
+
+    document.addEventListener("DOMContentLoaded", syncPdfForm);
+</script>
+                            

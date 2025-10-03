@@ -1,0 +1,53 @@
+﻿@model List<Repairly.Models.EmailViewModel>;
+<table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+        <tr class="text-secondary">
+            <th>ประเภท</th>
+            <th>ครุภัณฑ์</th>
+            <th>แบรนด์</th>
+            <th>โมเดล</th>
+            <th>รายละเอียด</th>
+            <th>ผู้แจ้ง</</th>
+            <th>สถานะ</</th>
+            <th>อีเมล</th>
+            <th>การดำเนินการ</th>
+        </tr>
+    </thead>
+    <tbody>
+ 
+        
+        @foreach(var data in Model)
+        {
+            var email = data.email;
+            var subject = $"แจ้งผลการซ่อม: {data.asset_name}";
+            var body = $"เรียนผู้ใช้งาน {data.username},\n\n" +
+            "อุปกรณ์ของท่านได้ทำการซ่อมเสร็จเรียบร้อยแล้ว โดยมีรายละเอียดดังนี้:\n" +
+            "- อุปกรณ์: " + data.asset_name + "\n" +
+            "- หมวดหมู่: " + data.category + "\n" +
+            "- รุ่น/ยี่ห้อ: " + data.brand + " " + data.model + "\n" +
+            "- รายละเอียดปัญหา: " + data.description + "\n\n" +
+            "ท่านสามารถมารับของได้ที่แผนกซ่อมบำรุงครับ\n" +
+            "ขอบคุณครับ";
+            var mailto = $"mailto:{email}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
+
+            <tr>
+                <td>@data.category</td>
+                <td>@data.asset_name</td>
+                <td>@data.brand</td>
+                <td>@data.model</td>
+                <td>@data.description</td>
+                <td>@data.username</td>
+                <td>@data.status</td>
+                <td>@data.email</td>
+                <td class="d-flex justify-content-center">
+                    <a class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 px-3 py-2 shadow-sm" href="@mailto">
+                        <i class="bi bi-envelope-arrow-up-fill fs-5 text-primary"></i>
+                        
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+  

@@ -1,0 +1,53 @@
+﻿    @model DashboardViewModel
+
+    @{
+        ViewData["Title"] = "Home Page";
+    }
+
+    <div class="container-fluid">
+
+    <partial name="Charts" model="Model" />
+  
+        <div class="card mt-3 shadow-sm border-0">
+        <div class="card-header  bg-white border-bottom  text-center text-muted"> 10 รายการล่าสุด </div>
+        <div class="card-body table-responsive ">
+                <table class="table table-hover">
+                    <tr>
+                        <th>ครุภัณฑ์</th>
+                        <th>ผู้แจ้งซ่อม</th>
+                        <th>รายละเอียด</th>
+                        <th>สถานะ</th>
+                        <th>วันที่แจ้ง</th>
+                    </tr>
+                    @foreach (var request in Model.Requests)
+                    {
+                        <tr>
+                            <td>@request.AssetName</td>
+                            <td>@request.RequesterName</td>
+                            <td>@request.Description</td>
+                            <td>@request.StatusName</td>
+                            <td>@request.CreatedAt</td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = @Html.Raw(Json.Serialize(Model.ChartLabels));
+        const data = @Html.Raw(Json.Serialize(Model.ChartData));
+        const monthLabels =  @Html.Raw(Json.Serialize(Model.MonthsLabels));
+        const MonthsData = @Html.Raw(Json.Serialize(Model.MonthsData));
+    </script>
+
+@section Scripts {
+    <script src="~/js/Index_BarChart.js"></script>
+    <script src="~/js/Index_DonutChart.js"></script>
+}

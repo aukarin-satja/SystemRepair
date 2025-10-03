@@ -1,0 +1,116 @@
+﻿@model List<Repairly.Models.RequestViewModel>;
+
+
+<div class="container-fluid">
+
+    <div class="card  shadow-sm border-0  mt-4 " style="height:900px">
+        <div class="card-header bg-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="navbar-brand">รายการซ่อม</h5>
+                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddCardRequest"> <i class="bi bi-plus-circle me-1"></i>  เพิ่มรายการซ่อม </a>
+            </div>
+            <div class="row text-center align-items-center mt-3 mb-2">
+              <div class="col-6">
+                    <input type="search" class="form-control" id="SearchRequest" placeholder="ค้นหารายการ..." />
+              </div>
+                <div class="col-3">
+                    <select class="form-control" id="StatusFilter" asp-items="ViewBag.Status"></select>
+
+                </div>
+                <div class="col-3">
+
+                    <select class="form-control" id="CategoryFilter" asp-items="ViewBag.Cateogory"> </select>
+
+                </div>
+           
+          
+            </div>
+
+        </div>
+        <div class="card-body table-responsive " id="tablePartial">
+            <partial name="TableRequest" />
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<partial name="AddCardRequest" />
+
+<partial name="EditCardRequest" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $("#DelRequest").on("click",function(){
+        let datadel = this.dataset.id
+        Swal.fire({
+                title: "การลบนี้จะไม่สามารถย้อนกลับได้",
+                text: "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "ลบเลย",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    window.location.href = "/Request/Delete?id="+datadel;
+                }
+            });
+
+
+    })
+
+</script>
+<script>
+
+        function EditDetail(button) {
+          const id = button.dataset.id;
+
+          $.ajax({
+            url: "/Request/GetRequestDetail",
+            type: "GET",
+            data: { id: id },
+            success: function (data) {
+              $("#edit-id").val(data.id);
+              $("#edit-name").val(data.name);
+              $("#edit-user_name").val(data.user_name);
+              $("#edit-email").val(data.email);
+              $("#edit-category").val(data.category);
+              $("#edit-description").val(data.description);
+              $("#edit-status_id").val(data.status_id);
+              $("#edit-brand").val(data.brand);
+              $("#edit-model").val(data.model);
+        }
+      });
+    }
+</script>
+
+
+<script>
+    function searchRequests() {
+      const keyword = $("#SearchRequest").val().trim();
+      const status = $("#StatusFilter").val();
+      const category = $("#CategoryFilter").val();
+
+      $.ajax({
+        url: "/Request/SearchRequest",
+        type: "GET",
+        data: {
+          keyword: keyword,
+          status: status,
+          category: category
+        },
+        success: function (result) {
+          $("#tablePartial").html(result);
+        }
+      });
+    }
+
+    $("#SearchRequest").on("keyup", searchRequests);
+    $("#StatusFilter").on("change", searchRequests);
+    $("#CategoryFilter").on("change", searchRequests);
+</script>

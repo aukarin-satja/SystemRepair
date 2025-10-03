@@ -1,0 +1,97 @@
+﻿<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>รหัสครุภัณฑ์</th>
+        <th>ครุภัณฑ์</th>
+        <th>ประเภท</th>
+        <th>แบรนด์</th>
+        <th>โมเดล</th>
+        <th>สถานที่</th>
+
+        <th>วันที่ซื้อ</th>
+        <th>หมดประกัน</th>
+        <th>การดำเนินการ</th>
+
+    </tr>
+    @foreach (var assets in Model.Assets)
+    {
+        <tr>
+            <td>@assets.Assets_id</td>
+            <td>@assets.Asset_code</td>
+            <td>@assets.Asset_name</td>
+            <td>@assets.Category</td>
+            <td>@assets.Brand</td>
+            <td>@assets.Model</td>
+            <td>@assets.Location</td>
+            <td>@assets.Purchase_date</td>
+            <td>@assets.Warranty_date</td>
+            <td class="d-flex justify-content-around">
+                <a class="btn btn-outline-primary btn-sm"
+                   data-id="@assets.Assets_id"
+                   data-bs-toggle="modal"
+                   data-bs-target="#editpopup"
+                   onclick="loadAssetDetail(this)">
+                    <i class="bi bi-pen-fill text-primary"></i>
+                </a>
+
+                <a class="btn btn-outline-danger btn-sm delIndex " data-id="@assets.Assets_id"><i class="bi bi-trash3-fill text-danger"></i></a>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="10" class="text-center text-muted py-5">
+            <i class="bi bi-box-seam fs-3"></i><br />
+            ไม่มีข้อมูลเพิ่มเติม
+        </td>
+    </tr>
+
+</table>
+
+     <script>
+
+        function loadAssetDetail(button) {
+          const id = button.dataset.id;
+
+          $.ajax({
+            url: "/Assets/GetAssetDetail",
+            type: "GET",
+            data: { id: id },
+            success: function (data) {
+              $("#edit-id").val(data.id);
+              $("#edit-code").val(data.code);
+              $("#edit-name").val(data.name);
+              $("#edit-category").val(data.category);
+              $("#edit-brand").val(data.brand);
+              $("#edit-model").val(data.model);
+              $("#edit-location").val(data.location);
+              $("#edit-purchase").val(data.purchaseDate);
+              $("#edit-warranty").val(data.warrantyDate);
+        }
+      });
+    }
+     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".delIndex").on("click", function () {
+           let datadel = this.dataset.id;
+            Swal.fire({
+                title: "การลบนี้จะไม่สามารถย้อนกลับได้",
+                text: "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "ลบเลย",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+               
+                    window.location.href = "/Assets/Delete?id="+datadel;
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,84 @@
+﻿
+
+
+<div class="modal fade " id="EditCardRequest" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">อัปเดทรายการ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row g-3">
+                   
+
+
+                    <div class="col-6">
+                        <label class="form-label">ครุภัณฑ์ </label>
+                        <input type="text" id="edit-name" class="form-control" placeholder="" disabled required />
+                    </div>
+
+
+                    <div class="col-6">
+                        <label class="form-label">ประเภท </label>
+                        <input type="text" id="edit-category" class="form-control" placeholder="" disabled required />
+
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">แบรนด์ </label>
+                        <input type="text" id="edit-brand" class="form-control" placeholder="" disabled required />
+
+                    </div>
+
+                    <div class="col-6">
+                        <label class="form-label">โมเดล </label>
+                        <input type="text" id="edit-model" class="form-control" placeholder="" disabled required />
+
+                    </div>
+
+                   
+                    <div class="col-6">
+                        <label class="form-label">ผู้แจ้ง</label>
+                        <input type="text" id="edit-user_name" class="form-control" disabled required />
+
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Email</label>
+                        <input type="text" id="edit-email" class="form-control" disabled required />
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <form method="post" asp-action="UpdateRequest">
+                <input type="hidden" id="edit-id" name="id" class="form-control" required />
+                <div class="p-3">
+                    <label class="form-label">สถานะ </label>
+                    <select class="form-control" asp-items="ViewBag.Status" name="status_id" id="edit-status_id"></select>
+
+                </div>
+
+
+        
+                <div class="p-3">
+                    <label class="form-label">รายละเอียด *</label>
+                    <textarea class="form-control" id="edit-description" name="description" rows="5" required></textarea>
+
+                </div>
+              
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    <button class="btn btn-primary" type="submit">บันทึก</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+        
