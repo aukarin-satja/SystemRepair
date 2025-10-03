@@ -28,6 +28,16 @@
             </div>
         </div>
     </div>
+    <form method="get" action="/Report/ExportPdf" target="_blank" id="pdfForm" class="d-lg-flex justify-content-end me-2">
+        <input type="hidden" name="startDate" id="pdfStartDate" />
+        <input type="hidden" name="endDate" id="pdfEndDate" />
+        <input type="hidden" name="status" id="pdfStatus" />
+        <input type="hidden" name="category" id="pdfCategory" />
+        <button type="submit" class="btn btn-success d-flex align-items-center gap-2 shadow-sm px-3 py-1">
+            <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
+            <span class="fw-semibold small">PDF</span>
+        </button>
+    </form>
     <div id="reportResult">
         <partial name="TableReport" />
     </div>
@@ -46,6 +56,10 @@
         const endDate = $("#endDate").val()
         const Status = $("#status").val()
         const Category = $("#category").val()
+       $("#pdfStartDate").val(startDate);
+        $("#pdfEndDate").val(endDate);
+        $("#pdfStatus").val(Status);
+        $("#pdfCategory").val(Category);
         $.ajax({
             url:"/Report/SearchReport",
             type:"GET",

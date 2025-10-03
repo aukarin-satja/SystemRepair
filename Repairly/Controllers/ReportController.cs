@@ -9,11 +9,14 @@ namespace Repairly.Controllers
 {
     public class ReportController : Controller
     {
+      
 
         private readonly IReportRepository _repo;
         public ReportController(IReportRepository repo)
         {
             _repo = repo;
+      
+
         }
         public IActionResult Index()
         {
@@ -65,7 +68,29 @@ namespace Repairly.Controllers
             dataset.BrandSummary = brandSummary;
             return PartialView("TableReport", dataset);
         }
-     
+        public IActionResult ExportPdf(DateTime? startDate, DateTime? endDate, int status, int category)
+        {
+            var filtered = _repo.Search(startDate, endDate, status, category);
+
+            var model = new ReportDataViewModel
+            {
+                Data = filtered,
+                StatusSummary = filtered.GroupBy(x => x.status).ToDictionary(g => g.Key, g => g.Count()),
+                CategorySummary = filtered.GroupBy(x => x.category).ToDictionary(g => g.Key, g => g.Count()),
+                BrandSummary = filtered.GroupBy(x => x.brand).ToDictionary(g => g.Key, g => g.Count()),
+                start_date = startDate.HasValue ? startDate.Value.ToString("dd/MM/yyyy") : "",
+                end_date = endDate.HasValue ? endDate.Value.ToString("dd/MM/yyyy") : "",
+            };
+         
+            var document = new RepairReportDocument(model);
+            var stream = new MemoryStream();
+            document.GeneratePdf(stream);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "รายงานการซ่อม.pdf");
+        }
+
+
 
     }
 }

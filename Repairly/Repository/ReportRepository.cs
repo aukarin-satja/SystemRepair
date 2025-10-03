@@ -127,6 +127,7 @@ namespace Repairly.Repository
                 sql.Append("AND( status_id = @status )");
                 cmd.Parameters.AddWithValue("@status", status);
             }
+            sql.Append(" ORDER BY created_at");
             cmd.CommandText = sql.ToString();
            
 
